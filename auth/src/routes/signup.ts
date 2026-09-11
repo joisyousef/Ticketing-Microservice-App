@@ -1,5 +1,5 @@
-import express, { Request, Response } from "express";
-import { body } from "express-validator";
+import express, { type Request, type Response } from "express";
+import { body, validationResult } from "express-validator";
 
 const router = express.Router();
 
@@ -13,11 +13,14 @@ router.post(
       .withMessage("Password must be between 4 and 20 characters"),
   ],
   (req: Request, res: Response) => {
-    const { email, password } = req.body;
-    if (!email || typeof email !== "string") {
-      res.status(400).send({ error: "Email is required and must be a string" });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).send({ errors: errors.array() });
     }
-  },
+    const { email, password } = req.body;
+    console.log("Creating a user with email:", email, "and password:", password);
+    res.send({ message: "User created successfully" });
+},
 );
 
 export { router as signupRouter };
