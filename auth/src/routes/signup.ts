@@ -15,10 +15,15 @@ router.post(
   (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).send({ errors: errors.array() });
+      throw new Error("Invalid request parameters");
     }
+
+    
     const { email, password } = req.body;
     console.log("Creating a user with email:", email, "and password:", password);
+
+    throw new Error("Error connecting to the database");
+
     res.send({ message: "User created successfully" });
 },
 );
