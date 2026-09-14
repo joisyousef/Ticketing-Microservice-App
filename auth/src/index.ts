@@ -9,6 +9,7 @@ import { NotFoundError } from "./errors/not-found-error.js";
 
 const app = express();
 app.use(express.json());
+ 
 
 app.use(currentUserRouter);
 app.use(signinRouter);
