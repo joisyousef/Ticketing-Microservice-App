@@ -1,4 +1,5 @@
 import express from "express";
+import "express-async-errors"; 
 import { currentUserRouter } from "./routes/current-user.js";
 import { signinRouter } from "./routes/signin.js";
 import { signoutRouter } from "./routes/signout.js";
@@ -14,8 +15,8 @@ app.use(signinRouter);
 app.use(signupRouter);
 app.use(signoutRouter);
 
-app.all("*", () => {
-  throw new NotFoundError();
+app.all("*", async (req, res) => {
+  throw new NotFoundError()
 });
 
 app.use(errorhandler);
