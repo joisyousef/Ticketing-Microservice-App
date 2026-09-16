@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.statics.build = (atters: UserAtters) => {
+  return new User(atters);
+};
+
 const User = mongoose.model("User", userSchema);
 
 const buildUser = (atters: UserAtters) => {
