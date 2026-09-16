@@ -2,9 +2,16 @@ import mongoose from "mongoose";
 
 // An interface that describes the properties
 // that are required to create a new user
-interface UserAtters {
+interface UserAttrs {
   email: string;
   password: string;
+}
+
+// An interface that describes the properties
+// that a user Model has
+
+interface UserModel extends mongoose.Model<any> {
+  build(attrs: UserAttrs): any;
 }
 
 const userSchema = new mongoose.Schema({
@@ -18,14 +25,16 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.statics.build = (atters: UserAtters) => {
-  return new User(atters);
+// Custom function built into a model
+userSchema.statics.build = (attrs: UserAttrs) => {
+  return new User(attrs);
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model<any, UserModel>("User", userSchema);
 
-const buildUser = (atters: UserAtters) => {
-  return new User(atters);
-};
+User.build({
+  email: 'test.test.com',
+  password: 'password',
+})
 
-export { User, buildUser };
+export { User };

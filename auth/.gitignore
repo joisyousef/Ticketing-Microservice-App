@@ -1,4 +1,4 @@
 /node_modules
 .gitignore
 .dockerignore
-../.idea
+.idea/
