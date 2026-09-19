@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { Password } from "../services/password.js";
 
+// 1. What you pass IN to create a user
 // An interface that describes the properties
 // that are required to create a new user
 interface UserAttrs {
@@ -8,17 +9,19 @@ interface UserAttrs {
   password: string;
 }
 
-// An interface that describes the properties
-// that a user Model has
-interface UserModel extends mongoose.Model<UserDoc> {
-  build(attrs: UserAttrs): UserDoc;
-}
-
+// 2. What a single user record looks like once it's IN the database
 // An interface that describes the properties
 // that a User Document has
 interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
+}
+
+// 3. What the User MODEL (the collection-level thing) looks like
+// An interface that describes the properties
+// that a user Model has
+interface UserModel extends mongoose.Model<UserDoc> {
+  build(attrs: UserAttrs): UserDoc;
 }
 
 const userSchema = new mongoose.Schema({
