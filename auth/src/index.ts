@@ -11,8 +11,8 @@ import { errorhandler } from "./middlewares/error-handler.js";
 import { NotFoundError } from "./errors/not-found-error.js";
 
 const app = express();
-app.settings("trust proxy", true);
-app.use(express.json());
+app.set("trust proxy", true);app.use(express.json());
+
 app.use(
   cookieSession({
     signed: false,
