@@ -5,7 +5,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx watch src/index.ts"
+    "start": "tsx watch src/index.ts",
+    "test": "jest --watchAll --no-cachse"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
   },
   "keywords": [],
   "author": "",
