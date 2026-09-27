@@ -34,7 +34,3 @@ spec:
     protocol: TCP
     port: 3000
     targetPort: 3000
-
-# The default type is ClusterIP, which exposes the service on a cluster-internal IP. 
-# Choosing this value makes the service only reachable from within the cluster. 
-# To expose the service externally, use NodePort or LoadBalancer.
