@@ -21,6 +21,6 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await mongo.stop();
-  await mongoose.connection.close();
-});
+  await mongoose.connection.close();  // close the connection first
+  await mongo.stop();                  // then stop the server
+}, 20000);
