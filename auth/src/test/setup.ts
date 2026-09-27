@@ -1,33 +1,26 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { app } from "../app.js";
-import { beforeEach } from "node:test";
 
-let mongo: any;
+let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
-  mongo = new MongoMemoryServer();
-  const mongoUri = await mongo.getUri();
+  process.env.JWT_KEY = "asdfasdf";
 
-  await mongoose.connect(mongoUri, {
-    useNewUrlparser: true,
-    useUnifiedToopology: true,
-  });
+  mongo = await MongoMemoryServer.create();
+  const mongoUri = mongo.getUri();
+
+  await mongoose.connect(mongoUri);
 });
 
 beforeEach(async () => {
-  const collections = await mongoose.connection.db?.collection();
+  const collections = await mongoose.connection.db?.collections();
 
-  for (let collections of collections) {
-    await collections.deleteMany({});
-  }
+  for (const collection of collections ?? []) {
+    await collection.deleteMany({});
+  } 
 });
 
 afterAll(async () => {
   await mongo.stop();
   await mongoose.connection.close();
 });
-function beforeAll(arg0: () => Promise<void>) {
-    throw new Error("Function not implemented.");
-}
-

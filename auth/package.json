@@ -6,15 +6,19 @@
   "main": "index.js",
   "scripts": {
     "start": "tsx watch src/index.ts",
-    "test": "jest --watchAll --no-cachse"
+"test": "node --experimental-vm-modules node_modules/.bin/jest --watchAll --no-cache"  },
+"jest": {
+  "preset": "ts-jest/presets/default-esm",
+  "testEnvironment": "node",
+  "extensionsToTreatAsEsm": [".ts"],
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1"
   },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "./src/test/setup.ts"
-    ]
+  "transform": {
+    "^.+\\.ts$": ["ts-jest", { "useESM": true }]
   },
+  "setupFilesAfterEnv": ["./src/test/setup.ts"]
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -33,5 +37,13 @@
     "mongoose": "^9.10.0",
     "tsx": "^4.19.2",
     "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/supertest": "^7.2.1",
+    "jest": "^30.5.2",
+    "mongodb-memory-server": "^11.3.0",
+    "supertest": "^7.3.0",
+    "ts-jest": "^29.4.14"
   }
 }
