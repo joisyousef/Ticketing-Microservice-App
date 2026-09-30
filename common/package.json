@@ -1,6 +1,6 @@
 {
     "name": "@elsrogy-tickets/common",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "type": "module",
     "description": "",
     "main": "./build/index.js",
@@ -8,12 +8,12 @@
     "files": [
         "build/**/*"
     ],
-   "scripts": {
-  "clean": "del ./build/*",
-  "build": "npm run clean && tsc",
-  "prepublishOnly": "npm run build",
-  "pub": "npm version patch && npm publish"
-},
+    "scripts": {
+        "clean": "del ./build/*",
+        "build": "npm run clean && tsc",
+        "prepublishOnly": "npm run build",
+        "pub": "npm version patch && npm publish"
+    },
     "keywords": [],
     "author": "",
     "license": "ISC",

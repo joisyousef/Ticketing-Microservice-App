@@ -7,6 +7,7 @@ import {
   currentUser,
 } from "@elsrogy-tickets/common";
 import { createTicketRouter } from "./routes/new.js";
+import { showTicketRouter } from "./routes/show.js";
 
 const app = express();
 app.set("trust proxy", true);
@@ -21,7 +22,9 @@ app.use(
 );
 
 app.use(currentUser);
+
 app.use(createTicketRouter);
+app.use(showTicketRouter);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();
