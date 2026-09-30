@@ -24,7 +24,7 @@ build:
       - src: '**/*.js'
         dest: .
   - image: joisyousef/tickets
-    context: auth
+    context: tickets
     docker:
       dockerfile: Dockerfile
     sync:
