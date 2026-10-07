@@ -2,6 +2,7 @@ import express, { type Request, type Response } from "express";
 import { body } from "express-validator";
 import { requireAuth, validateRequest } from "@elsrogy-tickets/common";
 import { Ticket } from "../models/ticket.js";
+import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher.js";
 
 const router = express.Router();
 
@@ -24,6 +25,12 @@ router.post(
       userId: req.currentUser!.id,
     });
     await ticket.save();
+    await new TicketCreatedPublisher(client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId
+    });
 
     res.status(201).send(ticket);
   },
