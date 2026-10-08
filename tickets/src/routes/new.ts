@@ -3,6 +3,7 @@ import { body } from "express-validator";
 import { requireAuth, validateRequest } from "@elsrogy-tickets/common";
 import { Ticket } from "../models/ticket.js";
 import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher.js";
+import { natsWrapper } from "../nats-wrapper.js";
 
 const router = express.Router();
 
@@ -25,7 +26,7 @@ router.post(
       userId: req.currentUser!.id,
     });
     await ticket.save();
-    await new TicketCreatedPublisher(client).publish({
+    await new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,
       price: ticket.price,
