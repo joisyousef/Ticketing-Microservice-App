@@ -6,10 +6,10 @@ import {
   NotFoundError,
   currentUser,
 } from "@elsrogy-tickets/common";
-import { createTicketRouter } from "./routes/new.js";
-import { showTicketRouter } from "./routes/show.js";
-import { indexTicketRouter } from "./routes/index.js";
-import { updateTicketRouter } from "./routes/update.js";
+import { deleteOrderRouter } from "./routes/delete.js";
+import { indexOrderRouter } from "./routes/index.js";
+import { newOrderRouter } from "./routes/new.js";
+import { showOrderRouter } from "./routes/show.js";
 
 const app = express();
 app.set("trust proxy", true);
@@ -25,10 +25,10 @@ app.use(
 
 app.use(currentUser);
 
-app.use(createTicketRouter);
-app.use(showTicketRouter);
-app.use(indexTicketRouter);
-app.use(updateTicketRouter);
+app.use(deleteOrderRouter);
+app.use(indexOrderRouter);
+app.use(newOrderRouter);
+app.use(showOrderRouter);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();
