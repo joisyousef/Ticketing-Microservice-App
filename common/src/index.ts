@@ -16,3 +16,5 @@ export * from "./events/base-publisher.js";
 export * from "./events/subjects.js";
 export * from "./events/ticket-created-event.js";
 export * from "./events/ticket-updated-event.js";
+
+export * from "./events/types/order-status.js";

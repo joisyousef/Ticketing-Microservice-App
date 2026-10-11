@@ -15,7 +15,7 @@ interface OrderDoc extends mongoose.Document {
   ticket: TicketDoc;
   // ticket: mongoose.Schema.Types.ObjectId;
 }
-
+  
 interface OrderModel extends mongoose.Model<OrderDoc> {
   build(attrs: OrderAttrs): OrderDoc;
 }
