@@ -8,6 +8,7 @@ interface TicketAttrs {
 interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  isReserved(): Promise<boolean>;
 }
 
 export interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -39,6 +40,8 @@ const ticketSchema = new mongoose.Schema(
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
 };
+
+
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", ticketSchema);
 export { Ticket };
