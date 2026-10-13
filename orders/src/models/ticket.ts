@@ -1,17 +1,19 @@
 import mongoose from "mongoose";
+import { BadRequestError } from "@elsrogy-tickets/common";
+import { Order, OrderStatus } from "./order.js";
 
 interface TicketAttrs {
   title: string;
   price: number;
 }
 
-interface TicketDoc extends mongoose.Document {
+export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
   isReserved(): Promise<boolean>;
 }
 
-export interface TicketModel extends mongoose.Model<TicketDoc> {
+interface TicketModel extends mongoose.Model<TicketDoc> {
   build(attrs: TicketAttrs): TicketDoc;
 }
 
@@ -41,7 +43,26 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
 };
 
+ticketSchema.methods.isReserved = async function () {
+  // this === the ticket document that we just called 'isReserved' on
 
+  // Run query to look at all orders. Find an order where the ticket
+  // is the ticket we just found *and* the order status is not cancelled
+  // If we found an order from that means the ticket *is* reserved
+
+  const existingOrder = await Order.findOne({
+    ticket: this,
+    status: {
+      $in: [
+        OrderStatus.Created,
+        OrderStatus.AwaitingPayment,
+        OrderStatus.Complete,
+      ],
+    },
+  });
+
+  return !!existingOrder;
+};
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", ticketSchema);
 export { Ticket };

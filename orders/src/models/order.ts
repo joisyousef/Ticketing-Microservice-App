@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import { OrderStatus } from "@elsrogy-tickets/common";
 import { TicketDoc } from "./ticket.js";
 
+export { OrderStatus };
+
 interface OrderAttrs {
   userId: string;
   status: OrderStatus;
