@@ -4,6 +4,7 @@ import { NotAuthorizedError, NotFoundError } from "@elsrogy-tickets/common";
 
 const router = express.Router();
 
+// Need to test this route
 router.get("/api/orders/:orderId", async (req: Request, res: Response) => {
   const order = await Order.findById(req.params.orderId).populate("ticket");
 
