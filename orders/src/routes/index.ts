@@ -2,7 +2,7 @@ import { requireAuth } from "@elsrogy-tickets/common";
 import express, { type Request, type Response } from "express";
 import { Order } from "../models/order.js";
 const router = express.Router();
-
+// Need to test this route
 router.get("/api/orders", requireAuth, async (req: Request, res: Response) => {
   const orders = await Order.find({
     userId: req.currentUser!.id,

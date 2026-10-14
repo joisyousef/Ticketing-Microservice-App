@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/joisyousef/Ticketing-Microservice-App.git
+    repoURL: https://github.com/joisyousef/Ticketing-Microservice-App
     targetRevision: master
     path: infra/k8s
   destination:

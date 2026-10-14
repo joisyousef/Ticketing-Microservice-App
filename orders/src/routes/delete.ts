@@ -9,6 +9,7 @@ import { Order } from "../models/order.js";
 
 const router = express.Router();
 
+// Need to test this route
 router.delete(
   "/api/orders/:orderId",
   requireAuth,
