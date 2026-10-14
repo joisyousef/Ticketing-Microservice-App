@@ -1,0 +1,53 @@
+name: ci
+on:
+  pull_request:
+    paths: ["auth/**", "tickets/**", "orders/**", "client/**"]
+  push:
+    branches: [master]
+    paths: ["auth/**", "tickets/**", "orders/**", "client/**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [auth, tickets, orders, client]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Test
+        if: matrix.service != 'client'
+        working-directory: ${{ matrix.service }}
+        run: npm ci && npm run test:ci
+      - uses: docker/login-action@v3
+        if: github.event_name == 'push'
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.service }}
+          push: ${{ github.event_name == 'push' }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:${{ github.sha }}
+
+  update-manifests:
+    needs: build
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update image tags
+        run: |
+          for svc in auth tickets orders client; do
+            sed -i -E "s|(image: ${{ secrets.DOCKERHUB_USERNAME }}/$svc):.*|\1:${{ github.sha }}|" infra/k8s/$svc-depl.yaml
+          done
+      - name: Commit
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git commit -am "ci: deploy ${{ github.sha }}" || exit 0
+          git pull --rebase
+          git push
