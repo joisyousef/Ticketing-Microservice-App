@@ -1,6 +1,6 @@
 {
     "name": "@elsrogy-tickets/common",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "type": "module",
     "description": "",
     "main": "./build/index.js",
