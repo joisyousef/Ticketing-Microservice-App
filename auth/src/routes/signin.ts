@@ -41,6 +41,7 @@ router.post(
     );
 
     // Store it on a session object
+    // Need a revision on jwt/sign in workflow
     req.session = {
       jwt: userJwt,
     };
