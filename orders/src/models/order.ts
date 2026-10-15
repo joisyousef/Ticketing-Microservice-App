@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
-import { OrderStatus } from "@elsrogy-tickets/common";
-import { TicketDoc } from "./ticket.js";
-
+import mongoose from 'mongoose';
+import { OrderStatus } from '@elsrogy-tickets/common';
+import { TicketDoc } from './ticket.js';
 export { OrderStatus };
 
 interface OrderAttrs {
@@ -9,7 +8,6 @@ interface OrderAttrs {
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
-  // ticket: mongoose.Schema.Types.ObjectId;
 }
 
 interface OrderDoc extends mongoose.Document {
@@ -17,7 +15,6 @@ interface OrderDoc extends mongoose.Document {
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
-  // ticket: mongoose.Schema.Types.ObjectId;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -35,14 +32,13 @@ const orderSchema = new mongoose.Schema(
       required: true,
       enum: Object.values(OrderStatus),
       default: OrderStatus.Created,
-      // enum: ["created", "cancelled", " awaiting:payment", "complete"],
     },
     expiresAt: {
       type: mongoose.Schema.Types.Date,
     },
     ticket: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Ticket",
+      ref: 'Ticket',
     },
   },
   {
@@ -50,16 +46,15 @@ const orderSchema = new mongoose.Schema(
       transform(doc, ret) {
         ret.id = ret._id;
         delete ret._id;
-        delete ret.__v;
       },
     },
-  },
+  }
 );
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);
 };
 
-const Order = mongoose.model<OrderDoc, OrderModel>("Order", orderSchema);
+const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
 
 export { Order };
