@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
-import { OrderStatus } from '@elsrogy-tickets/common';
-import { TicketDoc } from './ticket.js';
+import mongoose from "mongoose";
+import { OrderStatus } from "@elsrogy-tickets/common";
+import type { TicketDoc } from "./ticket.js";
 export { OrderStatus };
 
 interface OrderAttrs {
@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema(
     },
     ticket: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Ticket',
+      ref: "Ticket",
     },
   },
   {
@@ -48,13 +48,13 @@ const orderSchema = new mongoose.Schema(
         delete ret._id;
       },
     },
-  }
+  },
 );
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);
 };
 
-const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
+const Order = mongoose.model<OrderDoc, OrderModel>("Order", orderSchema);
 
 export { Order };

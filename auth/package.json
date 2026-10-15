@@ -4,10 +4,11 @@
   "type": "module",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "tsx watch src/index.ts",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --watchAll --no-cache"
-  },
+ "scripts": {
+  "start": "tsx watch src/index.ts",
+  "test": "node --experimental-vm-modules node_modules/.bin/jest --watchAll --no-cache",
+  "test:ci": "node --experimental-vm-modules node_modules/.bin/jest --runInBand --no-cache"
+},
   "jest": {
     "preset": "ts-jest/presets/default-esm",
     "testEnvironment": "node",

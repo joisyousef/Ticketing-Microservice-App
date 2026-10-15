@@ -6,7 +6,6 @@ import {
 } from "@elsrogy-tickets/common";
 import express, { type Request, type Response } from "express";
 import { Order } from "../models/order.js";
-import { OrderCancelledEvent } from "@elsrogy-tickets/common";
 import { natsWrapper } from "../nats-wrapper.js";
 import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-event.js";
 

@@ -96,6 +96,7 @@ it("updates the ticket provided valid inputs", async () => {
 
   const ticketResponse = await request(app)
     .get(`/api/tickets/${response.body.id}`)
+    .set("Cookie", cookie)
     .send();
 
   expect(ticketResponse.body.title).toEqual("new title");
