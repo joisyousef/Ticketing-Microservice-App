@@ -7,8 +7,7 @@
   "scripts": {
     "start": "tsx watch src/index.ts",
     "test": "node --experimental-vm-modules node_modules/.bin/jest --watchAll --no-cache",
-  "test:ci": "node --experimental-vm-modules node_modules/.bin/jest --runInBand --no-cache"
-  },
+"test:ci": "node --experimental-vm-modules node_modules/.bin/jest --runInBand --forceExit --no-cache"  },
   "jest": {
     "preset": "ts-jest/presets/default-esm",
     "testEnvironment": "node",
