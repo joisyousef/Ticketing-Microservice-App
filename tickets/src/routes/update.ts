@@ -8,7 +8,7 @@ import {
 } from "@elsrogy-tickets/common";
 import { Ticket } from "../models/ticket.js";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated.publisher.js";
-import {  natsWrapper } from "../nats-wrapper.js";
+import { natsWrapper } from "../nats-wrapper.js";
 
 const router = express.Router();
 
@@ -45,6 +45,7 @@ router.put(
       title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
+      version: ticket.version,
     });
 
     res.send(ticket);
