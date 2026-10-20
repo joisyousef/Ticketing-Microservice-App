@@ -7,6 +7,8 @@ import {
 } from "@elsrogy-tickets/common";
 import { queueGroupName } from "./queue-group-name.js";
 import { Ticket } from "../../models/ticket.js";
+import { TicketUpdatedPublisher } from "../../publishers/ticket-updated.publisher.js";
+import { natsWrapper } from "../../nats-wrapper.js";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
@@ -26,6 +28,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
     // Save the ticket
     await ticket.save();
+    new TicketUpdatedPublisher(natsWrapper.client);
 
     // ack the message
     msg.ack();
