@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { updateIfCurrentPlugin } from "mongoose-update-if-current";
+// import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { OrderStatus } from "@elsrogy-tickets/common";
 import type { TicketDoc } from "./ticket.js";
 export { OrderStatus };
@@ -44,6 +44,8 @@ const orderSchema = new mongoose.Schema(
     },
   },
   {
+    optimisticConcurrency: true,
+    versionKey: "version",
     toJSON: {
       transform(doc, ret) {
         ret.id = ret._id;
@@ -53,8 +55,8 @@ const orderSchema = new mongoose.Schema(
   },
 );
 
-orderSchema.set("versionKey", "version");
-orderSchema.plugin(updateIfCurrentPlugin);
+// orderSchema.set("versionKey", "version");
+// orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);

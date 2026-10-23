@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
-import { Message } from 'node-nats-streaming';
-import { OrderCancelledEvent } from '@rallycoding/common';
-import { natsWrapper } from '../../../nats-wrapper';
-import { OrderCancelledListener } from '../order-cancelled-listener';
-import { Ticket } from '../../../models/ticket';
+import { type Message } from 'node-nats-streaming';
+import { type OrderCancelledEvent } from '@elsrogy-tickets/common';
+import { natsWrapper } from '../../nats-wrapper.js';
+import { OrderCancelledListener } from './order-cancelled-listener.js'; 
+import { Ticket } from '../../models/ticket.js'; 
+import { jest } from "@jest/globals";
 
 const setup = async () => {
   const listener = new OrderCancelledListener(natsWrapper.client);

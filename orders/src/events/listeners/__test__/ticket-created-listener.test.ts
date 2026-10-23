@@ -4,6 +4,7 @@ import { type TicketCreatedEvent } from "@elsrogy-tickets/common";
 import { TicketCreatedListener } from "../ticket-created-listener.js";
 import { natsWrapper } from "../../../nats-wrapper.js";
 import { Ticket } from "../../../models/ticket.js";
+import { jest } from "@jest/globals";
 
 const setup = async () => {
   // Create an instance of the listener

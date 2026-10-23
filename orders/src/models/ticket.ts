@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { updateIfCurrentPlugin } from "mongoose-update-if-current";
+// import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { Order, OrderStatus } from "./order.js";
 interface TicketAttrs {
   id: string;
@@ -24,7 +24,7 @@ interface TicketModel extends mongoose.Model<TicketDoc> {
 
 const ticketSchema = new mongoose.Schema(
   {
-    title: { 
+    title: {
       type: String,
       required: true,
     },
@@ -35,6 +35,8 @@ const ticketSchema = new mongoose.Schema(
     },
   },
   {
+    optimisticConcurrency: true, // check the version on every save, and bump it
+    versionKey: "version", // call the field "version" instead of "__v"
     toJSON: {
       transform(doc, ret) {
         ret.id = ret._id;
@@ -44,13 +46,20 @@ const ticketSchema = new mongoose.Schema(
   },
 );
 
-ticketSchema.set("versionKey", "version");
-ticketSchema.plugin(updateIfCurrentPlugin);
+// ticketSchema.set("versionKey", "version");
+// ticketSchema.plugin(updateIfCurrentPlugin);
 
-ticketSchema.statics.findByEvent = (data: { id: string; version: number }) => {
+// ticketSchema.statics.findByEvent = (data: { id: string; version: number }) => {
+//   return Ticket.findOne({
+//     _id: event!.id,
+//     version: version - 1,
+//   });
+// };
+
+ticketSchema.statics.findByEvent = (event: { id: string; version: number }) => {
   return Ticket.findOne({
-    _id: event!.id,
-    version: version - 1,
+    _id: event.id,
+    version: event.version - 1,
   });
 };
 

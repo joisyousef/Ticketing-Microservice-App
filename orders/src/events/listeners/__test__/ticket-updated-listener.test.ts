@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
-import { Message } from "node-nats-streaming";
+import { type Message } from "node-nats-streaming";
 import { type TicketUpdatedEvent } from "@elsrogy-tickets/common";
 import { TicketUpdatedListener } from "../ticket-updated-listener.js";
 import { natsWrapper } from "../../../nats-wrapper.js";
 import { Ticket } from "../../../models/ticket.js";
+import { jest } from "@jest/globals";
 
 const setup = async () => {
   // Create a listener
