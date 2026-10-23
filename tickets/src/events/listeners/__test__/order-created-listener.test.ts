@@ -1,4 +1,4 @@
-import { Message } from "node-nats-streaming";
+import { type Message } from "node-nats-streaming";
 import mongoose from "mongoose";
 import { type OrderCreatedEvent, OrderStatus } from "@elsrogy-tickets/common";
 import { OrderCreatedListener } from "../order-created-listener.js";

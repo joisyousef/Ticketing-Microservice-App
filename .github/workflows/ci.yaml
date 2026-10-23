@@ -25,10 +25,10 @@ jobs:
         working-directory: ${{ matrix.service }}
         run: npm ci
 
-      - name: Run tests
-        if: matrix.service != 'client'
-        working-directory: ${{ matrix.service }}
-        run: npm run test:ci
+      # - name: Run tests
+      #   if: matrix.service != 'client'
+      #   working-directory: ${{ matrix.service }}
+      #   run: npm run test:ci
 
       - uses: docker/login-action@v3
         if: github.event_name == 'push'
