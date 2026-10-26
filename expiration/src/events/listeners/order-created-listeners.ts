@@ -1,10 +1,10 @@
-import type { Message } from "node-nats-streaming";
-import { queueGroupName } from "./queue-group-name.js";
 import {
-  Subjects,
   Listener,
   type OrderCreatedEvent,
+  Subjects,
 } from "@elsrogy-tickets/common";
+import { type Message } from "node-nats-streaming";
+import { queueGroupName } from "./queue-group-name.js";
 import { expirationQueue } from "../../queues/expiration-queue.js";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
@@ -12,9 +12,17 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   queueGroupName = queueGroupName;
 
   async onMessage(data: OrderCreatedEvent["data"], msg: Message) {
-    await expirationQueue.add({
-      orderId: data.id,
-    });
+    const delay = new Date(data.expiresAt).getTime() - new Date().getTime();
+    console.log("Waiting this many milliseconds to process the job:", delay);
+
+    await expirationQueue.add(
+      {
+        orderId: data.id,
+      },
+      {
+        delay: 10000
+      },
+    );
 
     msg.ack();
   }
