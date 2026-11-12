@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { OrderCancelledListener } from "../order-cancelled-listener.js";
 import { natsWrapper } from "../../../nats-wrapper.js";
-import { Order } from "../../../models/orders.js";
+import { Order } from "../../../models/order.js";
 import { type OrderCancelledEvent, OrderStatus } from "@elsrogy-tickets/common";
 import { type Message } from "node-nats-streaming";
 import { jest } from "@jest/globals";

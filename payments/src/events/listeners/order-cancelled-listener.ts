@@ -6,7 +6,7 @@ import {
   Listener,
 } from "@elsrogy-tickets/common";
 import { queueGroupName } from "./queue-group-name.js";
-import { Order } from "../../models/orders.js";
+import { Order } from "../../models/order.js";
 
 export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
   subject: Subjects.OrderCancelled = Subjects.OrderCancelled;

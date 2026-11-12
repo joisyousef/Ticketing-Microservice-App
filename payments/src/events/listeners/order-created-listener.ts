@@ -5,7 +5,7 @@ import {
   type OrderCreatedEvent,
 } from "@elsrogy-tickets/common";
 import { queueGroupName } from "./queue-group-name.js";
-import { Order } from "../../models/orders.js";
+import { Order } from "../../models/order.js";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;

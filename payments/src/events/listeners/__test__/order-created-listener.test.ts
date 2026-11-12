@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import { type Message } from "node-nats-streaming";
 import { type OrderCreatedEvent, OrderStatus } from "@elsrogy-tickets/common";
 import { natsWrapper } from "../../../nats-wrapper.js";
-import { OrderCreatedListener } from "../order-created-listeners.js";
-import { Order } from "../../../models/orders.js";
+import { OrderCreatedListener } from "../order-created-listener.js";
+import { Order } from "../../../models/order.js";
 import { jest } from "@jest/globals";
 
 const setup = async () => {
