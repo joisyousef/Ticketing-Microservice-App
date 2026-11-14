@@ -9,6 +9,7 @@ import {
 } from "@elsrogy-tickets/common";
 import { Order } from "../models/order.js";
 import { stripe } from "../stripe.js";
+import { Payment } from "../models/payment.js";
 
 const router = express.Router();
 
@@ -50,6 +51,11 @@ router.post(
         userId: req.currentUser!.id,
       },
     });
+    const payment = Payment.build({
+      orderId,
+      stripeId: paymentIntent.id,
+    });
+    await payment.save();
 
     res.status(201).send({ id: paymentIntent.id });
   },
