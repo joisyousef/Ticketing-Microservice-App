@@ -6,7 +6,7 @@ interface PaymentAttrs {
 }
 
 interface PaymentDoc extends mongoose.Document {
-  orderid: string;
+  orderId: string;
   stripeId: string;
 }
 

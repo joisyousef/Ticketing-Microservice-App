@@ -22,3 +22,4 @@ export * from "./events/types/order-status.js";
 export * from "./events/order-created-event.js";
 export * from "./events/order-cancelled-event.js";
 export * from "./events/expiration-complete-event.js";
+export * from "./events/payment-created-event.js";
