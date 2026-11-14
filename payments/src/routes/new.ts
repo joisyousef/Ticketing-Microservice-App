@@ -5,6 +5,7 @@ import {
   validateRequest,
   BadRequestError,
   NotFoundError,
+  NotAuthorizedError,
 } from "@elsrogy-tickets/common";
 import { Order } from "../models/order.js";
 
@@ -14,7 +15,23 @@ router.post(
   "/api/payments",
   requireAuth,
   [body("token").not().isEmpty(), body("orderId").not().isEmpty()],
+  validateRequest,
   async (req: Request, res: Response) => {
+    const { token, orderId } = req.body;
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      throw new NotFoundError();
+    }
+
+    if (order.userId !== req.currentUser!.id) {
+      throw new NotAuthorizedError();
+    }
+
+    if (order.status === "cancelled") {
+      throw new BadRequestError("Cannot pay for a cancelled order");
+    }
+
     res.send({ success: true });
   },
 );
