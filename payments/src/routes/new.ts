@@ -8,6 +8,7 @@ import {
   NotAuthorizedError,
 } from "@elsrogy-tickets/common";
 import { Order } from "../models/order.js";
+import { stripe } from "../stripe.js";
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const { token, orderId } = req.body;
+
     const order = await Order.findById(orderId);
 
     if (!order) {
@@ -32,7 +34,24 @@ router.post(
       throw new BadRequestError("Cannot pay for a cancelled order");
     }
 
-    res.send({ success: true });
+    const paymentMethod = await stripe.paymentMethods.create({
+      type: "card",
+      card: { token },
+    });
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: order.price * 100,
+      currency: "usd",
+      payment_method: paymentMethod.id,
+      confirm: true,
+      return_url: "http://localhost:3000/",
+      metadata: {
+        orderId: order.id,
+        userId: req.currentUser!.id,
+      },
+    });
+
+    res.send({ success: true, id: paymentIntent.id });
   },
 );
 
