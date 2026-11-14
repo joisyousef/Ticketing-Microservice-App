@@ -51,7 +51,7 @@ router.post(
       },
     });
 
-    res.send({ success: true, id: paymentIntent.id });
+    res.status(201).send({ id: paymentIntent.id });
   },
 );
 
