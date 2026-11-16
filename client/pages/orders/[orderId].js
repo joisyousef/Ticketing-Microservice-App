@@ -11,6 +11,7 @@ const OrderShow = ({ order, currentUser }) => {
     body: {
       orderId: order.id,
     },
+    onSuccess: (payment) => console.log(payment),
   });
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const OrderShow = ({ order, currentUser }) => {
         amount={order.ticket.price * 100}
         email={currentUser.email}
       />
+      {errors}
     </div>
   );
 };
