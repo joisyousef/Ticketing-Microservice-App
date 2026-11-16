@@ -15,7 +15,7 @@ import { natsWrapper } from "../nats-wrapper.js";
 
 const router = express.Router();
 
-const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+const EXPIRATION_WINDOW_SECONDS = 2 * 60;
 
 // Need to test this route
 router.post(
