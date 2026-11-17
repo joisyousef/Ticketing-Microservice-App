@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { jest } from "@jest/globals";
 
+process.env.STRIPE_KEY = "sk_test_dummy_key_for_tests";
 declare global {
   var signin: (id?: string) => string[];
 }
@@ -32,6 +33,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+    jest.clearAllMocks();
+
   const collections = await mongoose.connection.db?.collections();
 
   for (const collection of collections ?? []) {

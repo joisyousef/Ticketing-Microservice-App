@@ -5,11 +5,15 @@ import { app } from "../../app.js";
 import { Order } from "../../models/order.js";
 import { stripe } from "../../stripe.js";
 import { Payment } from "../../models/payment.js";
+import { jest } from "@jest/globals";
 
-jest.mock("../../stripe.js");
+// jest.mock("../../stripe.js");
 
-const mockedPaymentMethodsCreate = stripe.paymentMethods.create as jest.Mock;
-const mockedPaymentIntentsCreate = stripe.paymentIntents.create as jest.Mock;
+// const mockedPaymentMethodsCreate = stripe.paymentMethods.create as jest.Mock;
+// const mockedPaymentIntentsCreate = stripe.paymentIntents.create as jest.Mock;
+
+const createPaymentMethod = jest.spyOn(stripe.paymentMethods, "create");
+const createPaymentIntent = jest.spyOn(stripe.paymentIntents, "create");
 
 it("returns 404 when purchasing an order that does not exist", async () => {
   await request(app)
@@ -79,13 +83,8 @@ it("returns a 201 with valid inputs", async () => {
   const paymentMethodId = "pm_test_123";
   const paymentIntentId = "pi_test_123";
 
-  mockedPaymentMethodsCreate.mockResolvedValueOnce({
-    id: paymentMethodId,
-  });
-
-  mockedPaymentIntentsCreate.mockResolvedValueOnce({
-    id: paymentIntentId,
-  });
+  createPaymentMethod.mockResolvedValueOnce({ id: "pm_test_123" } as any);
+  createPaymentIntent.mockResolvedValueOnce({ id: "pi_test_123" } as any);
 
   await request(app)
     .post("/api/payments")
@@ -96,13 +95,13 @@ it("returns a 201 with valid inputs", async () => {
     })
     .expect(201);
 
-  expect(mockedPaymentMethodsCreate).toHaveBeenCalledWith({
+  expect(createPaymentMethod).toHaveBeenCalledWith({
     type: "card",
     card: { token: "tok_visa" },
   });
 
-  const paymentIntentOptions = mockedPaymentIntentsCreate.mock.calls[0][0];
-
+  const paymentIntentOptions: any = createPaymentIntent.mock.calls[0]?.[0];
+  
   expect(paymentIntentOptions.amount).toEqual(20 * 100);
   expect(paymentIntentOptions.currency).toEqual("usd");
   expect(paymentIntentOptions.payment_method).toEqual(paymentMethodId);
