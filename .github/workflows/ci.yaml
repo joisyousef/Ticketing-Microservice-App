@@ -17,9 +17,9 @@ jobs:
           filters: |
             auth: ['auth/**']
             tickets: ['tickets/**']
-            orders: ['orders/**']
+            # orders: ['orders/**']
             client: ['client/**']
-            payment: ['payment/'**]
+            payments: ['payments/'**]
 
   test:
     needs: changes
