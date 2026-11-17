@@ -4,6 +4,7 @@ import { type OrderCreatedEvent, OrderStatus } from "@elsrogy-tickets/common";
 import { OrderCreatedListener } from "../order-created-listener.js";
 import { natsWrapper } from "../../../nats-wrapper.js";
 import { Ticket } from "../../../models/ticket.js";
+import { jest } from "@jest/globals";
 
 const setup = async () => {
   // Create an instance of the listener
